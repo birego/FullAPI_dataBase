@@ -28,7 +28,8 @@ model Cohorte {
   sessionId   String      @map("session_id")
   session     Session     @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   Apprenant   Apprenant[]
-  coach Coach[]
+  coach       Coach[]
+
   @@map("cohorte")
 }
 
@@ -37,6 +38,7 @@ model Ordinateur {
   modele    String
   fabricant String
   Apprenant Apprenant[]
+
   @@map("ordinateur")
 }
 
@@ -51,20 +53,30 @@ model Apprenant {
   cohorte       Cohorte?    @relation(fields: [codeCohorte], references: [code], onDelete: SetNull)
   tagOrdinateur String?     @map("tag_ordinateur")
   ordinateur    Ordinateur? @relation(fields: [tagOrdinateur], references: [tag], onDelete: SetNull)
+
   @@map("apprenant")
 }
 
 model Coach {
-  matricule     String    @id
-  codeCohorte   String   @map("code_cohorte")
+  matricule     String  @id
+  codeCohorte   String  @map("code_cohorte")
   nom           String
   prenom        String
   postnom       String?
-  dateNaissance String    @map("date_de_naissance")
+  dateNaissance String  @map("date_de_naissance")
   address       String
   email         String
   telephone     String
-  cohorte       Cohorte  @relation(fields: [codeCohorte], references: [code], onDelete: Cascade)
-  @@map("coach")
+  cohorte       Cohorte @relation(fields: [codeCohorte], references: [code], onDelete: Cascade)
 
+  @@map("coach")
 }
+
+// Ce modele va stocker l'information de l'utilisateur, leur mail et le mot de passe.
+// model User {
+//   id        String   @id @default(uuid())
+//   email     String   @unique
+//   password  String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
