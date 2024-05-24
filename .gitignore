@@ -7,3 +7,5 @@ pnpm-lock.yaml
 # Prisma
 prisma/migrations
 prisma/explanation.prisma
+
+.env
