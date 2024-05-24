@@ -19,7 +19,7 @@ model Session {
   ville   String
   Cohorte Cohorte[]
 
-  @@map("sessions")
+  @@map("session")
 }
 
 model Cohorte {
@@ -28,6 +28,8 @@ model Cohorte {
   sessionId   String      @map("session_id")
   session     Session     @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   Apprenant   Apprenant[]
+  coach Coach[]
+  @@map("cohorte")
 }
 
 model Ordinateur {
@@ -35,18 +37,34 @@ model Ordinateur {
   modele    String
   fabricant String
   Apprenant Apprenant[]
+  @@map("ordinateur")
 }
 
 model Apprenant {
   matricule     String      @id
   nom           String
   prenom        String
-  postNom       String?
-  dateNaissance String
-  lieuNaissance String
+  postnom       String?
+  dateNaissance String      @map("date_de_naissance")
+  lieuNaissance String      @map("lieu_de_naissance")
   codeCohorte   String?     @map("code_cohorte")
   cohorte       Cohorte?    @relation(fields: [codeCohorte], references: [code], onDelete: SetNull)
   tagOrdinateur String?     @map("tag_ordinateur")
   ordinateur    Ordinateur? @relation(fields: [tagOrdinateur], references: [tag], onDelete: SetNull)
-  // @@map("")
+  @@map("apprenant")
+}
+
+model Coach {
+  matricule     String    @id
+  codeCohorte   String   @map("code_cohorte")
+  nom           String
+  prenom        String
+  postnom       String?
+  dateNaissance String    @map("date_de_naissance")
+  address       String
+  email         String
+  telephone     String
+  cohorte       Cohorte  @relation(fields: [codeCohorte], references: [code], onDelete: Cascade)
+  @@map("coach")
+
 }
