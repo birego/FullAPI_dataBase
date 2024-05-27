@@ -13,6 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model Session {
   id      String    @id @default(uuid())
   annee   Int

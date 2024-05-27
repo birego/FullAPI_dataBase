@@ -1,5 +1,6 @@
 import express from "express";
 import cors from 'cors';
+import apiV1 from "./api/apiV1.js";
 import apprenantRoutes from "./routes/apprenant.js";
 import coachRoutes from "./routes/coach.js";
 import cohorteRoutes from "./routes/cohorte.js";
@@ -16,6 +17,7 @@ app.use("/machines", ordinateurRoutes);
 app.use("/sessions", sessionRoutes);
 app.use("/cohortes", cohorteRoutes);
 
+app.use('/api/v1', apiV1);
 app.get("/", function (req, res) {
   res.send({ message: "server live"});
 });
