@@ -44,7 +44,7 @@ model Ordinateur {
 }
 
 model Apprenant {
-  matricule     String      @id
+  matricule     String      @id @default(uuid())
   nom           String
   prenom        String
   postnom       String?
