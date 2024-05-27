@@ -1,7 +1,16 @@
-import { Router } from "express";
+import express from "express";
+import {
+  CohorteList,
+  CreateCohorte,
+  UpdateCohorte,
+  DeleteCohorte,
+} from "../controllers/cohorte.js";
 
-let cohorteRoutes = Router();
+const router = express.Router();
 
-// cohorteRoutes.get("/", function);
+router.get("/", CohorteList);
+router.post("/", CreateCohorte);
+router.put("/:id", UpdateCohorte);
+router.delete("/:id", DeleteCohorte);
 
-export default cohorteRoutes;
+export default router;
