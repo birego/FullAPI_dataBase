@@ -31,13 +31,33 @@ async function getCoachById(req, res) {
 
 // Create a new coach
 async function createCoach(req, res) {
+  const { codeCohorte, nom, prenom, postnom, dateNaissance, address, email, telephone } = req.body;
+
+  // Validation basique
+  if (!codeCohorte || !nom || !prenom || !dateNaissance || !address || !email || !telephone) {
+    return res.status(400).json({ error: 'Tous les champs obligatoires doivent être remplis.' });
+  }
+
   try {
     const newCoach = await coach.create({
-      data: req.body
+      data: {
+        codeCohorte,
+        nom,
+        prenom,
+        postnom,
+        dateNaissance,
+        address,
+        email,
+        telephone
+      }
     });
     res.status(201).json(newCoach);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to create coach' });
+    if (error.code === 'P2002') { // Code d'erreur pour violation de contrainte unique
+      res.status(400).json({ error: 'L\'email est déjà utilisé.' });
+    } else {
+      res.status(500).json({ error: 'Failed to create coach', details: error.message });
+    }
   }
 }
 

@@ -1,7 +1,12 @@
-import { Router } from "express";
+import express from 'express';
+import { getAllSessions, getSessionById, createSession, updateSession, deleteSession } from '../controllers/session.js';
 
-let sessionRoutes = Router();
+const router = express.Router();
 
-// sessionRoutes.get("/" , function );
+router.get('/', getAllSessions);
+router.get('/:id', getSessionById);
+router.post('/', createSession);
+router.put('/:id', updateSession);
+router.delete('/:id', deleteSession);
 
-export default sessionRoutes;
+export default router;
