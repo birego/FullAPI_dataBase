@@ -59,7 +59,7 @@ model Apprenant {
 }
 
 model Coach {
-  matricule     String  @id
+  matricule     String  @id @default(uuid())
   codeCohorte   String  @map("code_cohorte")
   nom           String
   prenom        String
