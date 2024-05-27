@@ -1,7 +1,12 @@
-import { Router } from "express";
+import express from 'express';
+import { getAllCoaches, getCoachById, createCoach, updateCoach, deleteCoach } from '../controllers/coachController.js';
 
-let coachRoutes = Router();
+const coachRoutes = express.Router();
 
-// coachRoutes.get("/" , function );
+coachRoutes.get('/', getAllCoaches);
+coachRoutes.get('/:matricule', getCoachById);
+coachRoutes.post('/', createCoach);
+coachRoutes.put('/:matricule', updateCoach);
+coachRoutes.delete('/:matricule', deleteCoach);
 
 export default coachRoutes;
