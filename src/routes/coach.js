@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllCoaches, getCoachById, createCoach, updateCoach, deleteCoach } from '../controllers/coachController.js';
+import { getAllCoaches, getCoachById, createCoach, updateCoach, deleteCoach } from '../controllers/coach.js';
 
 const coachRoutes = express.Router();
 
