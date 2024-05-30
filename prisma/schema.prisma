@@ -14,6 +14,13 @@ datasource db {
 }
 
 
+//User Role
+enum Role {
+  ADMIN
+  APPRENANT
+}
+
+
 model Session {
   id      String    @id @default(uuid())
   annee   Int
@@ -54,6 +61,7 @@ model Apprenant {
   cohorte       Cohorte?    @relation(fields: [codeCohorte], references: [code], onDelete: SetNull)
   tagOrdinateur String?     @map("tag_ordinateur")
   ordinateur    Ordinateur? @relation(fields: [tagOrdinateur], references: [tag], onDelete: SetNull)
+  user          User        @relation(fields: [matricule], references: [id])
 
   @@map("apprenant")
 }
@@ -74,10 +82,16 @@ model Coach {
 }
 
 // Ce modele va stocker l'information de l'utilisateur, leur mail et le mot de passe.
-// model User {
-//   id        String   @id @default(uuid())
-//   email     String   @unique
-//   password  String
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
+model User {
+  id        String   @id @default(uuid())
+  username  String?
+  email     String   @unique
+  password  String
+  role      Role     @default(ADMIN)
+  apprenant Apprenant?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user")
+}
+
