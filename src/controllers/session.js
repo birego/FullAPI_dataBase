@@ -89,3 +89,6 @@ export {
   updateSession,
   deleteSession
 };
+
+
+export default session;

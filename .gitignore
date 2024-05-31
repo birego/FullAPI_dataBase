@@ -2,7 +2,7 @@
 
 node_modules 
 pnpm-lock.yaml
-#Enviromnent Variable
+# Enviromnent Variable
 .env
 # Prisma
 prisma/migrations
