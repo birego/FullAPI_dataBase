@@ -8,7 +8,7 @@ async function getAllApprenants(req, res) {
     const apprenants = await apprenant.findMany();
     res.json(apprenants);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch apprenants' });
+    res.status(500).json({ error: "Failed to fetch apprenants" });
   }
 }
 
@@ -17,25 +17,35 @@ async function getApprenantById(req, res) {
   try {
     const { matricule } = req.params;
     const apprenant = await apprenant.findUnique({
-      where: { matricule: matricule }
+      where: { matricule: matricule },
     });
     if (apprenant) {
       res.json(apprenant);
     } else {
-      res.status(404).json({ error: 'Apprenant not found' });
+      res.status(404).json({ error: "Apprenant not found" });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch apprenant' });
+    res.status(500).json({ error: "Failed to fetch apprenant" });
   }
 }
 
 // Create a new apprenant
 async function createApprenant(req, res) {
-  const { nom, prenom, postnom, dateNaissance, lieuNaissance, codeCohorte, tagOrdinateur } = req.body;
+  const {
+    nom,
+    prenom,
+    postnom,
+    dateNaissance,
+    lieuNaissance,
+    codeCohorte,
+    tagOrdinateur,
+  } = req.body;
 
   // Validation basique
   if (!nom || !prenom || !dateNaissance || !lieuNaissance) {
-    return res.status(400).json({ error: 'Tous les champs obligatoires doivent être remplis.' });
+    return res
+      .status(400)
+      .json({ error: "Tous les champs obligatoires doivent être remplis." });
   }
 
   try {
@@ -47,12 +57,14 @@ async function createApprenant(req, res) {
         dateNaissance,
         lieuNaissance,
         codeCohorte,
-        tagOrdinateur
-      }
+        tagOrdinateur,
+      },
     });
     res.status(201).json(newApprenant);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to create apprenant', details: error.message });
+    res
+      .status(500)
+      .json({ error: "Failed to create apprenant", details: error.message });
   }
 }
 
@@ -62,11 +74,11 @@ async function updateApprenant(req, res) {
     const { matricule } = req.params;
     const updatedApprenant = await apprenant.update({
       where: { matricule: matricule },
-      data: req.body
+      data: req.body,
     });
     res.json(updatedApprenant);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to update apprenant' });
+    res.status(500).json({ error: "Failed to update apprenant" });
   }
 }
 
@@ -75,11 +87,11 @@ async function deleteApprenant(req, res) {
   try {
     const { matricule } = req.params;
     const deletedApprenant = await apprenant.delete({
-      where: { matricule: matricule }
+      where: { matricule: matricule },
     });
     res.json(deletedApprenant);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to delete apprenant' });
+    res.status(500).json({ error: "Failed to delete apprenant" });
   }
 }
 
@@ -88,5 +100,5 @@ export {
   getApprenantById,
   createApprenant,
   updateApprenant,
-  deleteApprenant
+  deleteApprenant,
 };
