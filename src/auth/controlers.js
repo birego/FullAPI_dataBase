@@ -1,11 +1,11 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import client from "./db-client.js";
+import client from "../client.js";
 import getUsers, {
   createAdminUser,
   VerifyUser,
   getSingleUser,
-} from "./auth/views.js";
+} from "./views.js";
 
 const userRoutes = express.Router();
 

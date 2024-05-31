@@ -18,6 +18,7 @@ datasource db {
 enum Role {
   ADMIN
   APPRENANT
+  GUEST
 }
 
 
@@ -61,7 +62,7 @@ model Apprenant {
   cohorte       Cohorte?    @relation(fields: [codeCohorte], references: [code], onDelete: SetNull)
   tagOrdinateur String?     @map("tag_ordinateur")
   ordinateur    Ordinateur? @relation(fields: [tagOrdinateur], references: [tag], onDelete: SetNull)
-  user          User        @relation(fields: [matricule], references: [id])
+  user          User        @relation(fields: [matricule], references: [id], onDelete: Cascade)
 
   @@map("apprenant")
 }
@@ -77,6 +78,7 @@ model Coach {
   email         String
   telephone     String
   cohorte       Cohorte @relation(fields: [codeCohorte], references: [code], onDelete: Cascade)
+  user          User    @relation(fields: [matricule], references: [id], onDelete: Cascade)
 
   @@map("coach")
 }
@@ -89,6 +91,7 @@ model User {
   password  String
   role      Role     @default(ADMIN)
   apprenant Apprenant?
+  coach     Coach?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
