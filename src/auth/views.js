@@ -1,4 +1,4 @@
-import client, { role } from "../db-client.js";
+import client, { role } from "../client.js";
 import bcrypt from "bcrypt";
 
 let userTable = client.user;
@@ -58,6 +58,45 @@ async function createAdminUser(username, email, password) {
 }
 
 async function createStudent(
+  nom,
+  prenom,
+  postnom,
+  dateNaissance,
+  lieuNaissance,
+  codeCohorte,
+  tagOrdinateur,
+  email,
+  password
+) {
+  const username = nom + " " + prenom;
+  const cryptPassword = await bcrypt.hash(password, 10);
+  const studentUser = await userTable.create({
+    data: {
+      username: username,
+      email: email,
+      password: cryptPassword,
+      role: role.STUDENT,
+      apprenant: {
+        create: {
+          nom,
+          prenom,
+          postnom,
+          dateNaissance,
+          lieuNaissance,
+          codeCohorte,
+          tagOrdinateur,
+        },
+      },
+    },
+    include: {
+      apprenant: true,
+    },
+  });
+
+  return studentUser;
+}
+
+async function createCoach(
   nom,
   prenom,
   postnom,
