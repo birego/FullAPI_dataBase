@@ -1,6 +1,5 @@
 import client from "../client.js";
-import session from './session.js';
-
+import session from "./session.js";
 
 const cohorte = client.cohorte;
 
@@ -14,29 +13,28 @@ async function CohorteList(req, res) {
   }
 }
 
-export async function CreateCohorte(req, res) {
+async function CreateCohorte(req, res) {
   try {
-     const { code, description, sessionId } = req.body;
-     const findSessionId = session.findUnique({
-        where: {
-           id: sessionId
-        }
-     });
-     if (findSessionId == null) {
-        res.status(403).json({ message: 'session id must be valid' });
-        return;
-     }
-     const createdCohorte = await cohorte.create({
-        data: { code, description, sessionId }
-     });
-     res.json(createdCohorte);
+    const { code, description, sessionId } = req.body;
+    const findSessionId = session.findUnique({
+      where: {
+        id: sessionId,
+      },
+    });
+    if (findSessionId == null) {
+      res.status(403).json({ message: "session id must be valid" });
+      return;
+    }
+    const createdCohorte = await cohorte.create({
+      data: { code, description, sessionId },
+    });
+    res.json(createdCohorte);
   } catch (error) {
-     res.status(500).json({ message: `${error.message}` });
+    res.status(500).json({ message: `${error.message}` });
   }
 }
 
-
-// 
+//
 
 async function UpdateCohorte(req, res) {
   try {

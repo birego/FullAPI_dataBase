@@ -1,4 +1,5 @@
 import client from "../client.js";
+import { createStudent } from "../auth/views.js";
 
 const apprenant = client.apprenant;
 
@@ -39,32 +40,40 @@ async function createApprenant(req, res) {
     lieuNaissance,
     codeCohorte,
     tagOrdinateur,
+    email,
+    password,
   } = req.body;
 
   // Validation basique
-  if (!nom || !prenom || !dateNaissance || !lieuNaissance) {
+  if (!nom || !prenom || !dateNaissance || !lieuNaissance || !email) {
     return res
       .status(400)
       .json({ error: "Tous les champs obligatoires doivent être remplis." });
   }
+  if (!password) password = "default";
 
   try {
-    const newApprenant = await apprenant.create({
-      data: {
-        nom,
-        prenom,
-        postnom,
-        dateNaissance,
-        lieuNaissance,
-        codeCohorte,
-        tagOrdinateur,
-      },
-    });
+    const newApprenant = await createStudent(
+      nom,
+      prenom,
+      postnom,
+      dateNaissance,
+      lieuNaissance,
+      codeCohorte,
+      tagOrdinateur,
+      email,
+      password
+    );
     res.status(201).json(newApprenant);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Failed to create apprenant", details: error.message });
+    if (error.code === "P2002") {
+      // Code d'erreur pour violation de contrainte unique
+      res.status(400).json({ error: "L'email est déjà utilisé." });
+    } else {
+      res
+        .status(500)
+        .json({ error: "Failed to create apprenant", details: error.message });
+    }
   }
 }
 

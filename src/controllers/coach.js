@@ -1,4 +1,5 @@
 import client from "../client.js";
+import { createCoach } from "../auth/views.js";
 
 const coach = client.coach;
 
@@ -8,7 +9,7 @@ async function getAllCoaches(req, res) {
     const coaches = await coach.findMany();
     res.json(coaches);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch coaches' });
+    res.status(500).json({ error: "Failed to fetch coaches" });
   }
 }
 
@@ -17,46 +18,70 @@ async function getCoachById(req, res) {
   try {
     const { matricule } = req.params;
     const coach = await coach.findUnique({
-      where: { matricule: matricule }
+      where: { matricule: matricule },
     });
     if (coach) {
       res.json(coach);
     } else {
-      res.status(404).json({ error: 'Coach not found' });
+      res.status(404).json({ error: "Coach not found" });
     }
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch coach' });
+    res.status(500).json({ error: "Failed to fetch coach" });
   }
 }
 
 // Create a new coach
-async function createCoach(req, res) {
-  const { codeCohorte, nom, prenom, postnom, dateNaissance, address, email, telephone } = req.body;
+async function createCoache(req, res) {
+  const {
+    codeCohorte,
+    nom,
+    prenom,
+    postnom,
+    dateNaissance,
+    address,
+    email,
+    telephone,
+    password,
+  } = req.body;
 
   // Validation basique
-  if (!codeCohorte || !nom || !prenom || !dateNaissance || !address || !email || !telephone) {
-    return res.status(400).json({ error: 'Tous les champs obligatoires doivent être remplis.' });
+  if (
+    !codeCohorte ||
+    !nom ||
+    !prenom ||
+    !dateNaissance ||
+    !address ||
+    !email ||
+    !telephone
+  ) {
+    return res
+      .status(400)
+      .json({ error: "Tous les champs obligatoires doivent être remplis." });
   }
 
+  if (!password) password = "default";
+
   try {
-    const newCoach = await coach.create({
-      data: {
-        codeCohorte,
-        nom,
-        prenom,
-        postnom,
-        dateNaissance,
-        address,
-        email,
-        telephone
-      }
-    });
+    const newCoach = await createCoach(
+      codeCohorte,
+      nom,
+      prenom,
+      postnom,
+      dateNaissance,
+      address,
+      email,
+      telephone,
+      password
+    );
     res.status(201).json(newCoach);
   } catch (error) {
-    if (error.code === 'P2002') { // Code d'erreur pour violation de contrainte unique
-      res.status(400).json({ error: 'L\'email est déjà utilisé.' });
+    if (error.code === "P2002") {
+      // Code d'erreur pour violation de contrainte unique
+      res.status(400).json({ error: "L'email est déjà utilisé." });
     } else {
-      res.status(500).json({ error: 'Failed to create coach', details: error.message });
+      res
+        .status(500)
+        .json({ error: "Failed to create coach", details: error.message });
     }
   }
 }
@@ -67,11 +92,11 @@ async function updateCoach(req, res) {
     const { matricule } = req.params;
     const updatedCoach = await coach.update({
       where: { matricule: matricule },
-      data: req.body
+      data: req.body,
     });
     res.json(updatedCoach);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to update coach' });
+    res.status(500).json({ error: "Failed to update coach" });
   }
 }
 
@@ -80,18 +105,12 @@ async function deleteCoach(req, res) {
   try {
     const { matricule } = req.params;
     const deletedCoach = await coach.delete({
-      where: { matricule: matricule }
+      where: { matricule: matricule },
     });
     res.json(deletedCoach);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to delete coach' });
+    res.status(500).json({ error: "Failed to delete coach" });
   }
 }
 
-export {
-  getAllCoaches,
-  getCoachById,
-  createCoach,
-  updateCoach,
-  deleteCoach
-};
+export { getAllCoaches, getCoachById, createCoach, updateCoach, deleteCoach };

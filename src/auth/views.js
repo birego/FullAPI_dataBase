@@ -97,43 +97,50 @@ async function createStudent(
 }
 
 async function createCoach(
+  codeCohorte,
   nom,
   prenom,
   postnom,
   dateNaissance,
-  lieuNaissance,
-  codeCohorte,
-  tagOrdinateur,
+  address,
+  telephone,
   email,
   password
 ) {
   const username = nom + " " + prenom;
   const cryptPassword = await bcrypt.hash(password, 10);
-  const studentUser = await userTable.create({
+  const coachUser = await userTable.create({
     data: {
       username: username,
       email: email,
       password: cryptPassword,
       role: role.STUDENT,
-      apprenant: {
+      coach: {
         create: {
+          codeCohorte,
           nom,
           prenom,
           postnom,
           dateNaissance,
-          lieuNaissance,
-          codeCohorte,
-          tagOrdinateur,
+          address,
+          email,
+          telephone,
         },
       },
     },
     include: {
-      apprenant: true,
+      coach: true,
     },
   });
 
-  return studentUser;
+  return coachUser;
 }
 
 export default getUsers;
-export { createAdminUser, getSingleUser, VerifyUser, createStudent };
+export {
+  createAdminUser,
+  getSingleUser,
+  VerifyUser,
+  createStudent,
+  createCoach,
+};
