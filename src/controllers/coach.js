@@ -1,5 +1,5 @@
 import client from "../client.js";
-import { createCoach } from "../auth/views.js";
+import { createUserCoach } from "../auth/views.js";
 
 const coach = client.coach;
 
@@ -31,7 +31,7 @@ async function getCoachById(req, res) {
 }
 
 // Create a new coach
-async function createCoache(req, res) {
+async function createCoach(req, res) {
   const {
     codeCohorte,
     nom,
@@ -62,7 +62,7 @@ async function createCoache(req, res) {
   if (!password) password = "default";
 
   try {
-    const newCoach = await createCoach(
+    const newCoach = await createUserCoach(
       codeCohorte,
       nom,
       prenom,

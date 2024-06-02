@@ -57,7 +57,7 @@ async function createAdminUser(username, email, password) {
   return newUser;
 }
 
-async function createStudent(
+async function createUserStudent(
   nom,
   prenom,
   postnom,
@@ -75,7 +75,7 @@ async function createStudent(
       username: username,
       email: email,
       password: cryptPassword,
-      role: role.STUDENT,
+      role: role.APPRENANT,
       apprenant: {
         create: {
           nom,
@@ -96,7 +96,7 @@ async function createStudent(
   return studentUser;
 }
 
-async function createCoach(
+async function createUserCoach(
   codeCohorte,
   nom,
   prenom,
@@ -114,7 +114,7 @@ async function createCoach(
       username: username,
       email: email,
       password: cryptPassword,
-      role: role.STUDENT,
+      role: role.COACH,
       coach: {
         create: {
           codeCohorte,
@@ -141,6 +141,6 @@ export {
   createAdminUser,
   getSingleUser,
   VerifyUser,
-  createStudent,
-  createCoach,
+  createUserStudent,
+  createUserCoach,
 };

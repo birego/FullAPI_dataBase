@@ -1,5 +1,5 @@
 import client from "../client.js";
-import { createStudent } from "../auth/views.js";
+import { createUserStudent } from "../auth/views.js";
 
 const apprenant = client.apprenant;
 
@@ -53,7 +53,7 @@ async function createApprenant(req, res) {
   if (!password) password = "default";
 
   try {
-    const newApprenant = await createStudent(
+    const newApprenant = await createUserStudent(
       nom,
       prenom,
       postnom,
