@@ -1,4 +1,11 @@
 import express from "express";
+
+import verifyToken, {
+  IsAdmin,
+  IsCoach,
+  IsStudent,
+} from "../auth/middlewares.js";
+
 import {
   getAllCoaches,
   getCoachById,
@@ -11,8 +18,8 @@ const coachRoutes = express.Router();
 
 coachRoutes.get("/", getAllCoaches);
 coachRoutes.get("/:matricule", getCoachById);
-coachRoutes.post("/", createCoach);
-coachRoutes.put("/:matricule", updateCoach);
-coachRoutes.delete("/:matricule", deleteCoach);
+coachRoutes.post("/", verifyToken, IsAdmin, IsCoach, createCoach);
+coachRoutes.put("/:matricule", verifyToken, IsAdmin, IsCoach, updateCoach);
+coachRoutes.delete("/:matricule", verifyToken, IsAdmin, IsCoach, deleteCoach);
 
 export default coachRoutes;

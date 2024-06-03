@@ -2,7 +2,17 @@ import jwt from "jsonwebtoken";
 
 const verifyToken = (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
+    const isLogged = req.headers.authorization;
+    if (!isLogged) {
+      return res
+        .status(401)
+        .json({ message: "Authorization header is missing" });
+    }
+    const token = isLogged.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({ message: "Token is missing" });
+    }
     const user = jwt.verify(token, "JESON_WEB_TOKEN");
     req.user = user;
 
@@ -14,21 +24,21 @@ const verifyToken = (req, res, next) => {
 
 const IsAdmin = () => {
   return (req, res, next) => {
-    if (req.user.roles.include("ADMIN")) next();
+    if ((req.user.role = "ADMIN")) next();
     else res.status(403).json({ message: "unauthorized" });
   };
 };
 
 const IsCoach = () => {
   return (req, res, next) => {
-    if (req.user.roles.include("COACH")) next();
+    if ((req.user.role = "COACH")) next();
     else res.status(403).json({ message: "unauthorized" });
   };
 };
 
 const IsStudent = () => {
   return (req, res, next) => {
-    if (req.user.roles.include("APPRENANT")) next();
+    if ((req.user.role = "APPRENANT")) next();
     else res.status(403).json({ message: "unauthorized" });
   };
 };
