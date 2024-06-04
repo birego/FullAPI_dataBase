@@ -1,4 +1,3 @@
-import express from "express";
 import jwt from "jsonwebtoken";
 import client from "../client.js";
 import getUsers, {
@@ -6,8 +5,6 @@ import getUsers, {
   VerifyUser,
   getSingleUser,
 } from "./views.js";
-
-const userRoutes = express.Router();
 
 // CREDENTIAL MANAGEMENT
 async function register(req, res) {
@@ -32,7 +29,7 @@ async function login(req, res) {
 
     if (user) {
       const token = jwt.sign(
-        { username: user.email, role: user.role },
+        { email: user.email, role: user.role },
         "JSON_WEB_TOKEN",
         { expiresIn: "24h" }
       );

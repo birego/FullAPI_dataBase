@@ -2,18 +2,13 @@ import jwt from "jsonwebtoken";
 
 const verifyToken = (req, res, next) => {
   try {
-    const isLogged = req.headers.authorization;
-    if (!isLogged) {
-      return res
-        .status(401)
-        .json({ message: "Authorization header is missing" });
-    }
-    const token = isLogged.split(" ")[1];
+    const token = req.headers?.authorization.split(" ")[1];
 
     if (!token) {
       return res.status(401).json({ message: "Token is missing" });
     }
-    const user = jwt.verify(token, "JESON_WEB_TOKEN");
+    const user = jwt.verify(token, "JSON_WEB_TOKEN");
+
     req.user = user;
 
     next();
