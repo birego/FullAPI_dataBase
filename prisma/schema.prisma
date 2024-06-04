@@ -63,7 +63,8 @@ model Apprenant {
   cohorte       Cohorte?    @relation(fields: [codeCohorte], references: [code], onDelete: SetNull)
   tagOrdinateur String?     @map("tag_ordinateur")
   ordinateur    Ordinateur? @relation(fields: [tagOrdinateur], references: [tag], onDelete: SetNull)
-  user          User        @relation(fields: [matricule], references: [id], onDelete: Cascade)
+  userId        String      @unique @map("user_id")
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("apprenant")
 }
@@ -71,15 +72,15 @@ model Apprenant {
 model Coach {
   matricule     String  @id @default(uuid())
   codeCohorte   String  @map("code_cohorte")
+  userId        String  @unique @map("user_id")
   nom           String
   prenom        String
   postnom       String?
   dateNaissance String  @map("date_de_naissance")
   address       String
-  email         String
   telephone     String
   cohorte       Cohorte @relation(fields: [codeCohorte], references: [code], onDelete: Cascade)
-  user          User    @relation(fields: [matricule], references: [id], onDelete: Cascade)
+  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("coach")
 }

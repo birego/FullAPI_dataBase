@@ -7,7 +7,8 @@ const coach = client.coach;
 async function getAllCoaches(req, res) {
   try {
     const coaches = await coach.findMany();
-    res.json(coaches);
+
+    res.status(200).json(coaches);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch coaches" });
   }
@@ -21,7 +22,7 @@ async function getCoachById(req, res) {
       where: { matricule: matricule },
     });
     if (coach) {
-      res.json(coach);
+      res.status(200).json(coach);
     } else {
       res.status(404).json({ error: "Coach not found" });
     }
@@ -69,8 +70,8 @@ async function createCoach(req, res) {
       postnom,
       dateNaissance,
       address,
-      email,
       telephone,
+      email,
       password
     );
     res.status(201).json(newCoach);

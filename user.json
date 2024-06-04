@@ -1,0 +1,20 @@
+[
+  {
+    "id": "dcc4738b-5f57-423f-956e-823b088d5489",
+    "username": "Warden Megumi",
+    "email": "megumi@gmail.com",
+    "password": "$2b$10$nooxf/Jss60/4wMBB3Kziet0gaFKULI6i6PZFoags1pfi2SaBSIN2",
+    "role": "ADMIN",
+    "createdAt": "2024-05-31 10:25:46.258",
+    "updatedAt": "2024-05-31 10:25:46.258"
+  },
+  {
+    "id": "530011c8-75da-48b1-8119-622139a337b1",
+    "username": "kiyotaka senku",
+    "email": "+1234346421",
+    "password": "$2b$10$9U2l9RQvqBopOiUMob09COeB6IU167Q4Qp7SAOqfU30oYRoK8wkBe",
+    "role": "COACH",
+    "createdAt": "2024-06-04 14:14:13.72",
+    "updatedAt": "2024-06-04 14:14:13.72"
+  }
+]

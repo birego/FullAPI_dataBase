@@ -123,7 +123,6 @@ async function createUserCoach(
           postnom,
           dateNaissance,
           address,
-          email,
           telephone,
         },
       },

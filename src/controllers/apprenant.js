@@ -17,16 +17,19 @@ async function getAllApprenants(req, res) {
 async function getApprenantById(req, res) {
   try {
     const { matricule } = req.params;
-    const apprenant = await apprenant.findUnique({
+    const apprenante = await apprenant.findUnique({
       where: { matricule: matricule },
     });
-    if (apprenant) {
-      res.json(apprenant);
+    if (apprenante) {
+      console.log(apprenante.user);
+      res.json(apprenante);
     } else {
       res.status(404).json({ error: "Apprenant not found" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch apprenant" });
+    res
+      .status(500)
+      .json({ message: "Failed to fetch apprenant", error: error.message });
   }
 }
 
@@ -98,6 +101,7 @@ async function deleteApprenant(req, res) {
     const deletedApprenant = await apprenant.delete({
       where: { matricule: matricule },
     });
+
     res.json(deletedApprenant);
   } catch (error) {
     res.status(500).json({ error: "Failed to delete apprenant" });
