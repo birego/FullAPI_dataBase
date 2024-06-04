@@ -17,25 +17,31 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-const IsAdmin = () => {
-  return (req, res, next) => {
+const IsAdmin = (req, res, next) => {
+  try {
     if ((req.user.role = "ADMIN")) next();
     else res.status(403).json({ message: "unauthorized" });
-  };
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
-const IsCoach = () => {
-  return (req, res, next) => {
+const IsCoach = (req, res, next) => {
+  try {
     if ((req.user.role = "COACH")) next();
     else res.status(403).json({ message: "unauthorized" });
-  };
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
-const IsStudent = () => {
-  return (req, res, next) => {
+const IsStudent = (req, res, next) => {
+  try {
     if ((req.user.role = "APPRENANT")) next();
     else res.status(403).json({ message: "unauthorized" });
-  };
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 export default verifyToken;
